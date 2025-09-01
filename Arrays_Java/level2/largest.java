@@ -1,35 +1,41 @@
 import java.util.Scanner;
 
-class grade {
+class largest {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter number of students: ");
-        int n = sc.nextInt();
+        System.out.print("Enter a number: ");
+        int number = sc.nextInt();
 
-        int[][] marks = new int[n][3]; // phy, chem, math
-        double[] percentage = new double[n];
-        String[] grade = new String[n];
+        int maxDigit = 10;
+        int[] digits = new int[maxDigit];
+        int index = 0;
 
-        for (int i = 0; i < n; i++) {
-            System.out.print("Enter Physics marks: ");
-            marks[i][0] = sc.nextInt();
-            System.out.print("Enter Chemistry marks: ");
-            marks[i][1] = sc.nextInt();
-            System.out.print("Enter Maths marks: ");
-            marks[i][2] = sc.nextInt();
-
-            percentage[i] = (marks[i][0] + marks[i][1] + marks[i][2]) / 3.0;
-
-            if (percentage[i] >= 90) grade[i] = "A";
-            else if (percentage[i] >= 75) grade[i] = "B";
-            else if (percentage[i] >= 50) grade[i] = "C";
-            else grade[i] = "D";
+        while (number != 0) {
+            if (index == maxDigit) {
+                maxDigit += 10;
+                int[] temp = new int[maxDigit];
+                for (int j = 0; j < digits.length; j++) {
+                    temp[j] = digits[j];
+                }
+                digits = temp;
+            }
+            digits[index] = number % 10;
+            number /= 10;
+            index++;
         }
 
-        System.out.println("\nPhy  Chem  Math  %   Grade");
-        for (int i = 0; i < n; i++) {
-            System.out.println(marks[i][0] + "   " + marks[i][1] + "   " + marks[i][2] + "   " + percentage[i] + "   " + grade[i]);
+        int largest = 0, secondLargest = 0;
+        for (int i = 0; i < index; i++) {
+            if (digits[i] > largest) {
+                secondLargest = largest;
+                largest = digits[i];
+            } else if (digits[i] > secondLargest && digits[i] != largest) {
+                secondLargest = digits[i];
+            }
         }
+
+        System.out.println("Largest Digit: " + largest);
+        System.out.println("Second Largest Digit: " + secondLargest);
 
         sc.close();
     }
